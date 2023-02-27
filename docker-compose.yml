@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: be-api
+    build:
+      context: ./${BACKEND_DIR}/
+      dockerfile: Dockerfile
+      target: DEV
+    volumes:
+      - ./${BACKEND_DIR}:/app
+    command: pnpm run start:dev
+    ports:
+      - "${BACKEND_PORT}:4000"
+
+  frontend:
+    container_name: fe-client
+    build:
+      context: ./${FRONTEND_DIR}/
+      dockerfile: Dockerfile
+      target: DEV
+    volumes:
+      - ./${FRONTEND_DIR}/src:/app/src
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    environment:
+      - WATCHPACK_POLLING=true
