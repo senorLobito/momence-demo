@@ -1,11 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 
-interface Cat {
-  name: string;
-  type: string;
-}
-
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -13,5 +8,10 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('getCurrencyList')
+  getCurrencyList(): string {
+    return 'abcd';
   }
 }
