@@ -1,11 +1,10 @@
-FROM senorlobito/node18.14-alpine-pnpm AS DEV
+FROM node:18.14-alpine AS DEV
 
 WORKDIR /app
 
-COPY --chown=node:node package.json ./
-COPY --chown=node:node pnpm-lock.yaml ./
+COPY --chown=node:node package*.json ./
 
-RUN pnpm i
+RUN npm ci
 
 COPY --chown=node:node . .
 
@@ -13,25 +12,23 @@ RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 
 USER node
 
-CMD ["pnpm", "start"]
-
-FROM senorlobito/node18.14-alpine-pnpm AS BUILD
+FROM node:18.14-alpine AS BUILD
 
 WORKDIR /app
 
-COPY --chown=node:node package.json ./
-COPY --chown=node:node pnpm-lock.yaml ./
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=DEV /app/node_modules ./node_modules
 
-RUN pnpm fetch --prod
-
-ADD . ./
-
-RUN pnpm i -r --offline --prod
+RUN npm i --frozen-lockfile
 
 COPY --chown=node:node . .
 
-USER node
+RUN mkdir build/ && chmod -R 777 build/
 
-CMD ["pnpm", "exec", "serve", "build"]
+RUN npm run build
+
+ENV NODE_ENV production
+
+USER node
 
 
