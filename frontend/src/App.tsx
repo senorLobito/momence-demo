@@ -13,15 +13,8 @@ function App() {
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
         <Container fixed>
-          <Grid
-            container
-            spacing={2}
-            mb={5}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <CurrencyRates/>
+          <Grid container spacing={2} mb={5} direction="row" justifyContent="center" alignItems="center">
+            <CurrencyRates />
           </Grid>
         </Container>
       </QueryClientProvider>

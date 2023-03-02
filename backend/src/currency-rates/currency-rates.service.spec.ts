@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CurrencyRatesService } from './currency-rates.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { CurrencyRatesService } from "./currency-rates.service";
 
-describe('CurrencyRatesService', () => {
+describe("CurrencyRatesService", () => {
   let service: CurrencyRatesService;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('CurrencyRatesService', () => {
     service = module.get<CurrencyRatesService>(CurrencyRatesService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
   });
 });

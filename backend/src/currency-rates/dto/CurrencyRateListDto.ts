@@ -1,6 +1,6 @@
-import { CurrencyRateList } from '../types/CurrencyRateList';
-import { CurrencyRateDto } from './CurrencyRateDto';
-import * as dayjs from 'dayjs';
+import { CurrencyRateList } from "../types/CurrencyRateList";
+import { CurrencyRateDto } from "./CurrencyRateDto";
+import * as dayjs from "dayjs";
 export class CurrencyRateListDto {
   listDate: string;
   headers: string[];
@@ -8,7 +8,7 @@ export class CurrencyRateListDto {
 
   static toResponse(entity: CurrencyRateList): CurrencyRateListDto {
     return {
-      listDate: dayjs(entity.listDate).format('DD.MM.YYYY'),
+      listDate: dayjs(entity.listDate).format("DD.MM.YYYY"),
       headers: entity.headers,
       currencyRates: entity.currencyRates.map((rate) =>
         CurrencyRateDto.toResponse(rate),

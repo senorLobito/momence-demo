@@ -1,4 +1,4 @@
-import { CurrencyRateList } from '../types/CurrencyRateList';
+import { CurrencyRateList } from "../types/CurrencyRateList";
 
 export default interface ICurrencyRateParser {
   parseRateDate();

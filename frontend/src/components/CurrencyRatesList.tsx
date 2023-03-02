@@ -6,8 +6,7 @@ type CurrencyListProps = {
   list: CurrencyRateList | undefined;
 };
 
-export default function CurrencyRatesList(props: CurrencyListProps) {
-  const list = props.list;
+export default function CurrencyRatesList({ list }: CurrencyListProps) {
   return (
     <>
       {list && (

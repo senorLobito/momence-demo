@@ -63,7 +63,7 @@ export const FormBlock = styled.div`
     padding: 0 5px;
     color: #fff;
     font-weight: bold;
-    font-size: .9rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
   }
 `;
@@ -128,7 +128,7 @@ export const ConversionResultBlock = styled.div`
   font-size: 3rem;
   font-weight: bold;
   font-family: Montserrat, sans-serif;
-  
+
   .currency {
     color: #bcbcbc;
   }

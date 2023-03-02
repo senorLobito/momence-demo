@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { Currency, CurrencyRate } from './types/CurrencyRate';
-import { CurrencyRateList } from './types/CurrencyRateList';
-import ICurrencyRateParser from './interfaces/ICurrencyRateParser';
+import { Injectable } from "@nestjs/common";
+import { Currency, CurrencyRate } from "./types/CurrencyRate";
+import { CurrencyRateList } from "./types/CurrencyRateList";
+import ICurrencyRateParser from "./interfaces/ICurrencyRateParser";
 
 const DATE_AND_SEQUENCE_INDEX = 0;
 const HEADERS_INDEX = 1;

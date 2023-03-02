@@ -1,4 +1,4 @@
-import { CurrencyRate } from './CurrencyRate';
+import { CurrencyRate } from "./CurrencyRate";
 
 export type CurrencyRateList = {
   listDate: Date;

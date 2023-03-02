@@ -4,21 +4,17 @@ import { useQuery } from "react-query";
 import CurrencyRateService from "../services/CurrencyRate.service";
 import { Grid } from "@mui/material";
 import { H1, MessageBlock } from "../styles/styles";
-import RateDate from "./RateDate";
+import CurrencyRateDate from "./CurrencyRateDate";
 import CurrencyRatesList from "./CurrencyRatesList";
 import CurrencyConversion from "./CurrencyConversion";
-import {MESSAGES} from "../constants";
+import { MESSAGES } from "../constants";
 
 export default function CurrencyRates() {
   const [rateData, setRateData] = useState<CurrencyRateList>();
 
-  const { isLoading, error } = useQuery<CurrencyRateList, Error>(
-    "rateData",
-    async () => await CurrencyRateService.fetchCurrencyRates(),
-    {
-      onSuccess: (data) => setRateData(data),
-    }
-  );
+  const { isLoading, error } = useQuery<CurrencyRateList, Error>("rateData", async () => await CurrencyRateService.fetchCurrencyRates(), {
+    onSuccess: (data) => setRateData(data),
+  });
 
   if (isLoading) {
     return (
@@ -38,19 +34,12 @@ export default function CurrencyRates() {
 
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        mb={3}
-        direction="row"
-        justifyContent="center"
-        alignItems="baseLine"
-      >
+      <Grid container spacing={2} mb={3} direction="row" justifyContent="center" alignItems="baseLine">
         <Grid item xs={7}>
           <H1>Currency converter</H1>
         </Grid>
         <Grid item xs={3}>
-          <RateDate ratesDate={rateData?.listDate} />
+          <CurrencyRateDate ratesDate={rateData?.listDate} />
         </Grid>
       </Grid>
       <Grid item xs={10}>

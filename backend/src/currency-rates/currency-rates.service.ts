@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { catchError, firstValueFrom } from 'rxjs';
-import { AxiosError } from 'axios';
-import { HttpService } from '@nestjs/axios';
-import configuration from '../config/configuration';
-import { CurrencyRatesTextParser } from './currency-rates.text.parser';
-import { CurrencyRateList } from './types/CurrencyRateList';
+import { Injectable } from "@nestjs/common";
+import { catchError, firstValueFrom } from "rxjs";
+import { AxiosError } from "axios";
+import { HttpService } from "@nestjs/axios";
+import configuration from "../config/configuration";
+import { CurrencyRatesTextParser } from "./currency-rates.text.parser";
+import { CurrencyRateList } from "./types/CurrencyRateList";
 
 @Injectable()
 export class CurrencyRatesService {

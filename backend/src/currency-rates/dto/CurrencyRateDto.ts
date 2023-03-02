@@ -1,4 +1,4 @@
-import { Currency, CurrencyRate } from '../types/CurrencyRate';
+import { Currency, CurrencyRate } from "../types/CurrencyRate";
 
 export class CurrencyRateDto {
   country: string;
