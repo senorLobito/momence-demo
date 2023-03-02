@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import CssBaseline from "@mui/material/CssBaseline";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Container, Grid } from "@mui/material";
+import CurrencyRates from "./components/CurrencyRates";
 
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        aleluja
-        </a>
-      </header>
+      <CssBaseline />
+      <QueryClientProvider client={queryClient}>
+        <Container fixed>
+          <Grid
+            container
+            spacing={2}
+            mb={5}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <CurrencyRates/>
+          </Grid>
+        </Container>
+      </QueryClientProvider>
     </div>
   );
 }
