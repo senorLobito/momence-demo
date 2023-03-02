@@ -30,6 +30,7 @@ USER node
 
 FROM node:18.14-alpine AS PROD
 
+COPY --chown=node:node --from=BUILD /app/package.json ./package.json
 COPY --chown=node:node --from=BUILD /app/node_modules ./node_modules
 COPY --chown=node:node --from=BUILD /app/dist ./dist
 

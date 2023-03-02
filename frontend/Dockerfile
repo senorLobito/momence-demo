@@ -19,16 +19,24 @@ WORKDIR /app
 COPY --chown=node:node package*.json ./
 COPY --chown=node:node --from=DEV /app/node_modules ./node_modules
 
-RUN npm i --frozen-lockfile
+RUN npm ci
 
 COPY --chown=node:node . .
-
-RUN mkdir build/ && chmod -R 777 build/
 
 RUN npm run build
 
 ENV NODE_ENV production
 
 USER node
+
+FROM nginx:1.23-alpine as PROD
+
+ENV NODE_ENV production
+
+COPY --from=BUILD /app/build /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+CMD ["nginx", "-g", "daemon off;"]
 
 
