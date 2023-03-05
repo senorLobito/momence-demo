@@ -1,12 +1,12 @@
 import React from "react";
-import { GridTable } from "../styles/styles";
-import { CurrencyRateList } from "../types/CurrencyRateList";
+import { GridTable } from "../../styles/styles";
+import { CurrencyRateList } from "../../types/CurrencyRateList";
 
 type CurrencyListProps = {
   list: CurrencyRateList | undefined;
 };
 
-export default function CurrencyRatesList({ list }: CurrencyListProps) {
+export default function CurrencyRatesList({ list }: CurrencyListProps): JSX.Element {
   return (
     <>
       {list && (

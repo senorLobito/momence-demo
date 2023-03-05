@@ -1,5 +1,5 @@
 import React from "react";
-import { ConversionResultBlock } from "../styles/styles";
+import { ConversionResultBlock } from "../../styles/styles";
 
 type ConversionResultProps = {
   result: string | undefined;

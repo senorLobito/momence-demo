@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import { CurrencyRateList } from "../types/CurrencyRateList";
+import { CurrencyRateList } from "../../types/CurrencyRateList";
 import { useQuery } from "react-query";
-import CurrencyRateService from "../services/CurrencyRate.service";
 import { Grid } from "@mui/material";
-import { H1, MessageBlock } from "../styles/styles";
-import CurrencyRateDate from "./CurrencyRateDate";
+import { H1, MessageBlock } from "../../styles/styles";
+import CurrencyRatesDate from "./CurrencyRatesDate";
 import CurrencyRatesList from "./CurrencyRatesList";
-import CurrencyConversion from "./CurrencyConversion";
-import { MESSAGES } from "../constants";
+import CurrencyConversion from "../CurrencyConversion/CurrencyConversion";
+import { MESSAGES } from "../../constants";
+import { useCurrencyRateService } from "../../contexts/CurrencyRateService.context";
 
-export default function CurrencyRates() {
+export default function CurrencyRates(): JSX.Element {
+  const currencyRateService = useCurrencyRateService();
   const [rateData, setRateData] = useState<CurrencyRateList>();
 
-  const { isLoading, error } = useQuery<CurrencyRateList, Error>("rateData", async () => await CurrencyRateService.fetchCurrencyRates(), {
+  const { isLoading, error } = useQuery<CurrencyRateList, Error>("rateData", async () => await currencyRateService.fetchCurrencyRates(), {
     onSuccess: (data) => setRateData(data),
   });
 
-  if (isLoading) {
+  if (isLoading || !rateData) {
     return (
       <Grid item mt={15} xs={10}>
         <MessageBlock>{MESSAGES.LOADING}</MessageBlock>
@@ -39,11 +40,11 @@ export default function CurrencyRates() {
           <H1>Currency converter</H1>
         </Grid>
         <Grid item xs={3}>
-          <CurrencyRateDate ratesDate={rateData?.listDate} />
+          <CurrencyRatesDate ratesDate={rateData.listDate} />
         </Grid>
       </Grid>
       <Grid item xs={10}>
-        <CurrencyConversion currencyRates={rateData?.currencyRates} />
+        <CurrencyConversion currencyRates={rateData.currencyRates} />
       </Grid>
       <Grid item xs={10}>
         <CurrencyRatesList list={rateData} />

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { FormBlock, MessageBlock } from "../styles/styles";
+import { FormBlock, MessageBlock } from "../../styles/styles";
 import { Grid } from "@mui/material";
 import CurrencyConversionResult from "./CurrencyConversionResult";
-import { CurrencyRate } from "../types/CurrencyRate";
-import { MESSAGES } from "../constants";
+import { CurrencyRate } from "../../types/CurrencyRate";
+import { MESSAGES } from "../../constants";
+import { useCurrencyConversionService } from "../../contexts/CurrencyConversionService.context";
+import { isADecimal } from "../../utils/NumericStringUtil";
 
 const INITIAL_AMOUNT = "1.00";
 
@@ -16,27 +18,38 @@ export type ConversionResult = {
   currency: string;
 };
 
-export default function CurrencyConversionForm(props: CurrencyConversionProps) {
+export default function CurrencyConversionForm({ rates }: CurrencyConversionProps): JSX.Element {
+  const currencyConversionService = useCurrencyConversionService();
+
   const [amount, setAmount] = useState<string | undefined>(INITIAL_AMOUNT);
   const [amountErrorMsg, setAmountErrorMsg] = useState<string>("");
-  const [currency, setCurrency] = useState<string>(props.rates.entries().next().value[0]);
+  const [currency, setCurrency] = useState<string>(rates.entries().next().value[0]);
   const [conversionResult, setConversionResult] = useState<ConversionResult>({ result: "", currency: "" });
   const [generalErrorMsg, setGeneralErrorMsg] = useState<string>("");
 
-  const onAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setAmount(e.target.value);
   };
 
-  const onCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAmountBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value;
+    if (!value) {
+      return;
+    }
+
+    setAmount(currencyConversionService.formatAmountForConversion(value));
+  };
+
+  const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setCurrency(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setAmountErrorMsg("");
     setGeneralErrorMsg("");
 
-    if (!amount || !/^\d*\.?\d*$/.test(amount)) {
+    if (!amount || !isADecimal(amount)) {
       setAmountErrorMsg(MESSAGES.INVALID_VALUE);
       return;
     }
@@ -45,37 +58,12 @@ export default function CurrencyConversionForm(props: CurrencyConversionProps) {
       return;
     }
 
-    calculateConversion(currency, amount);
-  };
-
-  const formatAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (!isAmountNumber(value)) {
-      return;
-    }
-
-    if (hasFloatingPoint(value)) {
-      return;
-    }
-
-    setAmount(`${value}.00`);
-  };
-
-  const isAmountNumber = (value: string) => {
-    return !isNaN(Number(value));
-  };
-
-  const hasFloatingPoint = (value: string) => {
-    return value.indexOf(".") !== -1;
-  };
-
-  const calculateConversion = (currency: string, amount: string) => {
-    const currencyRate = props.rates.get(currency);
-    if (currencyRate) {
-      const result = ((parseFloat(amount) / currencyRate.rate) * currencyRate.amount).toFixed(3);
-      setConversionResult({ result: result, currency: currency });
-    } else {
+    const currencyRate = rates.get(currency);
+    if (!currencyRate) {
       setGeneralErrorMsg(MESSAGES.CURRENCY_NOT_AVAILABLE);
+    } else {
+      const result = currencyConversionService.calculateConversion(parseFloat(amount), currencyRate.rate, currencyRate.amount).toFixed(3);
+      setConversionResult({ result: result, currency: currency });
     }
   };
 
@@ -90,13 +78,13 @@ export default function CurrencyConversionForm(props: CurrencyConversionProps) {
           <Grid container spacing={2} direction="row" justifyContent="center" alignItems="stretch">
             <Grid item xs={4}>
               <label>Put amount in CZK</label>
-              <input id="amountInput" type="text" value={amount === undefined ? "" : amount} onChange={onAmountChange} onBlur={formatAmount} />
+              <input id="amountInput" type="text" value={amount === undefined ? "" : amount} onChange={handleAmountChange} onBlur={handleAmountBlur} />
               <div className="errorMessage">{amountErrorMsg}</div>
             </Grid>
             <Grid item xs={4}>
               <label>Select currency</label>
-              <select id="currencyInput" onChange={onCurrencyChange} value={currency}>
-                {Array.from(props.rates.keys()).map((code) => (
+              <select id="currencyInput" onChange={handleCurrencyChange} value={currency}>
+                {Array.from(rates.keys()).map((code) => (
                   <option key={code} value={code}>
                     {code}
                   </option>
