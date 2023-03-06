@@ -29,9 +29,25 @@ $ cd backend && npm i
 $ docker compose build --no-cache
 $ docker compose up
 ```
+
+### Test
+
+```bash
+BE ./backend/
+
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+
 ### My Comment
 There is definitely things that need some more work like:
-- test coverage
+- add more tests
 - exception handling  
 - data validations
 - on real project I would probably use some library to work with decimals, dates
@@ -40,8 +56,6 @@ and forms (eg.:Formik)
 I included the backend even though it wasn't part of the assignment, because I worked
 on one project in the past, which was created in NestJS and I got really fond of it. Also,
 my React skills lowered a bit, as I've been mostly doing backend and a bit of DevOps
-in last two years. I tried on this project the pnpm manager, and it was painful experience,
-especially when I tried my dockerized map on MAC. In the end I returned to old good npm.
-Let me know if anything.
+in last two years.
 
 > App tested on PC (Ubuntu) with i7 and Mac with M1 
